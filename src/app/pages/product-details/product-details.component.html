@@ -1,0 +1,51 @@
+<div class="container">
+    <h1 i18n class="fw-bold fs-3 my-4">Product Details</h1>
+    <!-- Product Details -->
+    <div class="row" *ngIf="product">
+        <div class="col-sm-12 col-md-5 col-lg-4 my-4">
+            <div class="d-flex justify-items-center align-items-center">
+                <img [src]="product.image" [alt]="product.title" class="object-fit-cover w-100">
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-5 offset-md-1 offset-lg-1 col-lg-6 my-4">
+            <div class="d-flex flex-column w-100 gap-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h1 class="w-100">{{product.title}}</h1>
+                    <button *ngIf="!whishlist[product.id]"  (click)="addToWhishlist(product)" type="button" class="btn btn-outline-primary">
+                        <ng-icon name="heroHeart" ></ng-icon>
+                    </button>
+                    <button *ngIf="whishlist[product.id]" (click)="addToWhishlist(product)" type="button" class="btn btn-outline-primary">
+                      <ng-icon name="heroHeartMini" ></ng-icon>
+                  </button>
+                </div>
+                <p class="mt-4">{{product.description}}</p>
+                <span i18n class="mt-4 text-danger fw-bold">Price : {{product.price | currency : 'EGP '}}</span>
+                <div>
+                    <button i18n type="button" class="btn btn-primary mt-4" (click)="addToCartHandler(product)">Add To Card</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Related Products-->
+    <div *ngIf="product">
+        <h1 class="fw-bold fs-3 my-4">Related Products</h1>
+        <p class="mt-4" *ngIf="relatedProducts.length === 0">No Related Products Found.</p>
+        <div *ngIf="relatedProducts.length > 0">
+            <div class="row">
+                <div class="col-sm-5 col-md-4 col-lg-3 mt-4" *ngFor="let relatedProduct of relatedProducts">
+                    <div class="card d-flex flex-column justify-content-center align-items-center mb-4" style="height: 95%;">
+                        <div class="img-product flex-grow-1" style="height: 100%;">
+                            <img [src]="relatedProduct.image" class="object-fit-cover">
+                        </div>
+                        <div class="card-body flex-grow-1">
+                          <a class="card-title fw-4 fw-bold" [routerLink]="['/product', relatedProduct.id]">{{relatedProduct.title.slice(0,20)}}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

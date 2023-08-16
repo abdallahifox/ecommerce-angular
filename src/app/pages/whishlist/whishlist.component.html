@@ -1,0 +1,30 @@
+<div class="container">
+    <h1 i18n class="fw-bold fw-4 mt-4">Whishlist | Items</h1>
+    <p i18n class="mt-4 fs-5" *ngIf="loopedWhishlist.length < 1">No Items Yet.</p>
+    <div>
+        <div class="row mt-4" *ngFor="let whishItem of loopedWhishlist">
+            <div class="col-sm-12 col-md-4">
+                <div class="img-product">
+                    <img [src]="whishlist[whishItem].image" alt="" class="w-25">
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-5">
+                <div class="d-flex align-items-center justify-content-center flex-column h-100">
+                    <p class="fw-bold">{{ whishlist[whishItem].title}}</p>
+                    <span class="mt-4 text-danger">{{whishlist[whishItem].price | currency : 'EGP '}}</span>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-2">
+                <div class="d-flex align-items-center justify-content-center gap-2 h-100">
+                    <button *ngIf="!whishlist[whishItem]"  (click)="addToWhishlist(whishlist[whishItem])" type="button" class="btn btn-outline-primary">
+                        <ng-icon name="heroHeart" ></ng-icon>
+                    </button>
+                    <button *ngIf="whishlist[whishItem]" (click)="onDeleteProductFromWhishlist(whishItem)" type="button" class="btn btn-outline-primary">
+                      <ng-icon name="heroHeartMini" ></ng-icon>
+                  </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

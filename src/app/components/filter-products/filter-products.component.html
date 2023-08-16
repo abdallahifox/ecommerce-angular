@@ -1,0 +1,25 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-4">
+            <label class="fw-bold text-center mb-2">Filter By Category</label>
+            <select [(ngModel)]="selectedCategory" (ngModelChange)="filterdProducts()" class="form-select shadow-none" aria-label="Default select example">
+                <option value="" disabled>Choose Category</option>
+                <option *ngFor="let category of categories" [value]="category">{{category}}</option>
+              </select>
+        </div>
+        <div class="col-sm-12 col-md-3">
+            <label class="fw-bold text-center mb-2">Sort By</label>
+            <select [(ngModel)]="selectedSort" (ngModelChange)="filterdProducts()" class="form-select shadow-none" aria-label="Default select example">
+                <option value="Newest" disabled>Choose Your Sort Type</option>
+                <option value="asc">Newest</option>
+                <option value="desc">Oldest</option>
+              </select>
+        </div>
+        <div class="col-sm-12 col-md-3">
+            <label class="fw-bold text-center mb-2">get All Products</label>
+            <div>
+                <button class="btn btn-outline-primary" (click)="fetchAllProducts()">get All Products</button>
+            </div>
+        </div>
+    </div>
+</div>

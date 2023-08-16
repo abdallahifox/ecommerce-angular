@@ -1,0 +1,42 @@
+<ngb-carousel>
+  <ng-template ngbSlide *ngFor="let image of images; let i = index">
+    <div class="picsum-img-wrapper">
+      <img [src]="image" alt="Random first slide" class="w-100" />
+    </div>
+  </ng-template>
+</ngb-carousel>
+
+<section class="my-4">
+  <app-filter-products [categories]="productService.categories"></app-filter-products>
+</section>
+
+<section class="mt-4">
+    <div class="container">
+        <h2 class="fw-bold"> Products</h2>
+        <div class="row">
+            <div class="col-md-4 col-lg-3 col-sm-12" *ngFor="let product of productService.products">
+                <div class="card d-flex flex-column justify-content-center align-items-center mb-4" style="height: 95%;">
+                    <div class="img-product flex-grow-1" style="height: 100%;">
+                        <img [src]="product.image" class="object-fit-cover">
+                    </div>
+                    <div class="card-body flex-grow-1">
+                      <a class="card-title fw-4 fw-bold" [routerLink]="['/product', product.id]">{{product.title.slice(0,20)}}</a>
+                      <p class="card-text">{{product.description.slice(0,20) + '...'}}</p>
+                      <p class="text-danger text-center">{{product.price | currency : 'EGP '}}</p>
+                      <div class="d-flex gap-2 align-items-center">
+                          <button type="button" class="btn btn-primary" (click)="addToCartHandler(product)">Add To Card</button>
+                          <button *ngIf="!whishlist[product.id]"  (click)="addToWhishlist(product)" type="button" class="btn btn-outline-primary">
+                              <ng-icon name="heroHeart" ></ng-icon>
+                          </button>
+                          <button *ngIf="whishlist[product.id]" (click)="addToWhishlist(product)" type="button" class="btn btn-outline-primary">
+                            <ng-icon name="heroHeartMini" ></ng-icon>
+                        </button>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+

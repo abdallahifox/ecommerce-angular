@@ -1,0 +1,134 @@
+<nav class="navbar navbar-expand-lg bg-dark py-3">
+  <div class="container">
+    <a class="navbar-brand text-white" routerLink="/">Ecommerce Clone</a>
+    <button class="btn bg-white btn-sm d-md-none" (click)="open(content)">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="align-items-center justify-content-between d-none d-md-flex">
+      <ul class="navbar-nav d-flex flex-row mx-2 gap-2">
+        <li class="nav-item">
+          <a class="nav-link text-white" [routerLink]="['/']" routerLinkActive="active" aria-current="page">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" [routerLink]="['about']" routerLinkActive="active"
+            aria-current="page">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white position-relative" [routerLink]="['whishlist']" routerLinkActive="active"
+            aria-current="page" ngbTooltip="Whishlist">
+            <ng-icon name="heroHeartMini" color="white" size="20px"></ng-icon>
+            <span *ngIf="whishlistService.getWhishlistSize()"
+              class="position-absolute translate-middle p-1 bg-danger border border-light rounded-circle">
+            </span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link text-white position-relative" [routerLink]="['cart']" routerLinkActive="active"
+            aria-current="page" ngbTooltip="Cart">
+            <ng-icon name="heroShoppingBagMini" color="white"></ng-icon>
+            <span *ngIf="cartService.cart.length > 0"
+              class="position-absolute translate-middle p-1 bg-danger border border-light rounded-circle">
+            </span>
+          </a>
+        </li>
+        <li class="nav-item" (click)="openModal(modal)">
+          <a class="nav-link text-white" ngbTooltip="Login/Register" role="button">
+            <ng-icon name="heroUser" color="white" size="20"></ng-icon>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<!-- Menu Bar Mobile -->
+<ng-template #content let-offcanvas>
+  <div class="offcanvas-header">
+    <h4 class="offcanvas-title" id="offcanvas-basic-title">Ecommerce Clone</h4>
+    <button type="button" class="btn-close shadow-none" aria-label="Close"
+      (click)="offcanvas.dismiss('Cross click')"></button>
+  </div>
+
+  <ul class="navbar-nav d-flex flex-column mx-2 gap-2">
+    <li class="nav-item">
+      <a (click)="offcanvas.dismiss('Cross click')" class="nav-link" [routerLink]="['/']" routerLinkActive="active"
+        aria-current="page">Home</a>
+    </li>
+    <li class="nav-item">
+      <a (click)="offcanvas.dismiss('Cross click')" class="nav-link" [routerLink]="['about']" routerLinkActive="active"
+        aria-current="page">About</a>
+    </li>
+    <li class="nav-item d-flex justify-content-between gap-2">
+      <a (click)="offcanvas.dismiss('Cross click')" class="nav-link" [routerLink]="['cart']" routerLinkActive="active"
+        aria-current="page">Cart </a>
+      <ng-icon name="heroShoppingBagMini" color="black"></ng-icon>
+    </li>
+    <li class="nav-item d-flex justify-content-between gap-2">
+      <a (click)="offcanvas.dismiss('Cross click')" class="nav-link" [routerLink]="['whishlist']"
+        routerLinkActive="active" aria-current="page">Whishlist </a>
+      <ng-icon name="heroHeartMini" color="black"></ng-icon>
+    </li>
+    <li class="nav-item d-flex justify-content-between gap-2">
+      <a (click)="offcanvas.dismiss('Cross click')" (click)="openModal(modal)" class="nav-link">Login/Register </a>
+      <ng-icon name="heroUser" color="black"></ng-icon>
+    </li>
+  </ul>
+</ng-template>
+
+<!-- Modal -->
+<ng-template #modal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Authentication</h4>
+    <button type="button" class="btn-close shadow-none" aria-label="Close"
+      (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+      <li [ngbNavItem]="1">
+        <button ngbNavLink (click)="registerFormGroup.reset()">Login</button>
+        <ng-template ngbNavContent>
+          <div class="col-8 offset-2">
+            <h4 class="my-4">Login Now</h4>
+            <form [formGroup]="loginFormGroup" (ngSubmit)="loginInUser()">
+              <div class="input-group-lg mb-3">
+                <input formControlName="email" name="email"  type="text" [ngClass]="{'is-invalid':!loginFormGroup.get('email')?.valid && loginFormGroup.get('email')?.touched}" class="form-control shadow-none" placeholder="Email">
+              </div>
+              <div class="input-group-lg mb-3">
+                <input  [ngClass]="{'is-invalid':!loginFormGroup.get('password')?.valid && loginFormGroup.get('password')?.touched}" formControlName="password" type="password" class="form-control shadow-none" placeholder="Password">
+              </div>
+            <div class="text-end">
+              <button [disabled]="!loginFormGroup.valid" type="submit" class="btn btn-primary">Login</button>
+            </div>
+            </form>
+          </div>
+        </ng-template>
+      </li>
+      <li [ngbNavItem]="2">
+        <button ngbNavLink (click)="loginFormGroup.reset()">Register</button>
+        <ng-template ngbNavContent>
+          <div class="col-8 offset-2">
+            <h4 class="my-4">Register Now</h4>
+            <form [formGroup]="registerFormGroup" (ngSubmit)="onRegisterUser()">
+              <div class="input-group-lg mb-3">
+                <input formControlName="email" name="email" type="text" class="form-control shadow-none" placeholder="Email">
+                <span *ngIf="!registerFormGroup.get('email')?.valid && registerFormGroup.get('email')?.touched" class="text-danger mt-2">Must be strong email</span>
+              </div>
+              <div class="input-group-lg mb-3">
+                <input formControlName="password" name="password" type="password" class="form-control shadow-none" placeholder="Password">
+                <span *ngIf="!registerFormGroup.get('password')?.valid && registerFormGroup.get('password')?.touched" class="text-danger mt-2">password must be strong include</span>
+              </div>
+              <div class="input-group-lg mb-3">
+                <input formControlName="confirmPassword" name="confirmPassword" type="password" class="form-control shadow-none" placeholder="Confirm Password">
+                <span *ngIf="confirmError" class="text-danger mt-2">{{confirmError}}</span>
+              </div>
+            <div class="text-end">
+              <button [disabled]="!registerFormGroup.valid" type="submit" class="btn btn-primary">Register</button>
+            </div>
+            </form>
+          </div>
+        </ng-template>
+      </li>
+    </ul>
+    <div [ngbNavOutlet]="nav" class="mt-2"></div>
+  </div>
+</ng-template>

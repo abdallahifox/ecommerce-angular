@@ -1,0 +1,14 @@
+/* You can add global styles to this file, and also import other style files */
+@import 'ngx-toastr/toastr';
+
+.img-product{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.img-product img{
+    width: 120px;
+}
+
+
